@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %} Поставщики {% endblock %}
+
+{% block content %}
+<div class = "box">
+    <h4>Добавление товара</h4>
+    <form name = 'addGood' action = '/addGood' method = 'POST'>
+        <p><input class = 'input' type="text" name="name" placeholder = 'Название' minlength = "2" maxlength = "20" required></p>
+        <p><input class = 'input' type="number" name="price" placeholder = 'Цена' minlength = "2" maxlength = "20" required></p>
+        <p><select name = "type" >
+            <option value = "-1">Выберите тип</option>
+            {% for item in type%}
+                <option value = "{{item[0]}}">{{item[1]}}</option>
+            {%endfor%}
+        </select></p>
+        {% if current_user.is_authenticated and current_user.get_role() == 'ADMIN'%}
+        <p><select name = "prov">
+            <option value = "-1">Выберите поставщика</option>
+            {% for item in users%}
+            <option value = "{{item[0]}}">{{item[1]}} - {{item[2]}}{{item[3]}} - {{item[4]}}</option>
+            {%endfor%}
+        </select></p>
+        {%endif%}
+        <p><input type = 'submit' class = "input" value = 'Добавить товар'></p>
+    </form>
+</div>
+{% endblock %}

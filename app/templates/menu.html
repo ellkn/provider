@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %} Поставщики {% endblock %}
+
+{% block content %}
+<div class = "menu">
+    <a href='/'><img class='logo' src="/static/logo.png"></a>
+    {% if current_user.is_authenticated and current_user.get_role() == 'ADMIN'%}
+        <a class='link' href="/users" target="content">Пользователи</a>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+    <p><a href="/orders" class="link" target="content">Заказы</a></p>
+    {% endif %}
+    <p><a href="/providers" class="link" target="content">Поставщики</a></p>
+    <p><a href="/banks" class="link" target="content">Банки</a></p>
+    {% if current_user.is_authenticated%}
+        <a id="button_a" class = "link" href="/logout" target="top">Выйти</a>
+    {% else %}
+        <a class='link' href="/login" target="top">Войти</a>
+    {% endif %}
+</div>
+
+{% endblock %}

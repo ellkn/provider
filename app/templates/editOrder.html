@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} Поставщики {% endblock %}
+
+{% block content %}
+<div class = "box">
+    <form name = 'editOrder' action = '/editOrder/{{tr[0][0]}}' method = 'POST'>
+        {{tr}}
+        <p><select name = "status">
+            <option value = "-1"> - - -</option>
+            {% for item in status%}
+            <option value = "{{item[0]}}">{{item[1]}}</option>
+            {%endfor%}
+        </select></p>
+        <p><input type = 'submit' class = "input" value = 'Изменить данные статуса'></p>
+    </form>
+    </div>
+{% endblock %}

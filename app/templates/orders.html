@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %} Поставщики {% endblock %}
+
+{% block content %}
+<p><a href="/createOrder" class="link">Добавить заказ</a></p>
+
+    <p><input class = "filter" type="text" id="myInput" onkeyup="myFunction()" placeholder="Ищите по названию товара.." title="По названию"></p>
+
+        <table class = "">
+            <thead>
+                <tr>
+                    <td>Номер заказа</td>
+                    <td>Контактное лицо</td>
+                    <td>Почта</td>
+                    <td>Номер телефона</td>
+                    <td>Название товара</td>
+                    <td>Цена товара</td>
+                    <td>Тип товара</td>
+                    <td>Дата покупки</td>
+                </tr>
+            </thead>
+            <tbody  id = "myTable">
+                {%for item in orders%}
+                <tr>
+                    <td>{{item[0]}}</td>
+                    <td>{{item[2]}} {{item[3]}} </td>
+                    <td>{{item[1]}}</td>
+                    <td><a class = "contact" href="tel:{{item[4]}}">{{item[4]}}</a></td>
+                    <td>{{item[5]}}</td>
+                    <td>{{item[6]}}</td>
+                    <td>{{item[7]}}</td>
+                    <td>{{item[8]}}</td>
+                </tr>
+                {%endfor%}
+            </tbody>
+        </table>
+{% endblock %}

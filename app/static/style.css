@@ -1,0 +1,69 @@
+
+.links {
+    display: block;
+    box-sizing: border-box;
+    margin-right: 3ex;
+}
+
+.link {
+    font-weight: bold;
+    text-decoration: none;
+    color: #e56e32;
+    margin-left: 2ex;
+    padding: 1ex;
+    white-space: nowrap;
+}
+
+.link:hover {
+    color: #1f2939;
+    background-color: #e56e32;
+    border-radius: 1ex;
+    padding: 1ex;
+}
+.logo{
+    width: 10ex;
+    border-radius: 2ex;
+    margin-left: 2ex;
+}
+table{
+    text-align: center;
+    margin:auto
+}
+td{
+    padding: 2ex;
+}
+thead{
+    font-weight: bold;
+    background-color: #1f2939;
+    color:#e56e32
+}
+.filter{
+    width: 100ex;
+    margin: auto;
+    border-radius: 1ex;
+    padding: 1ex;
+    font-weight: bold;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+select{
+    width: 40ex;
+    border-radius: 1ex;
+    padding: 1ex;
+}
+
+input{
+    width: 40ex;
+    border-radius: 1ex;
+    padding: 1ex;
+}
+.box{
+    text-align:center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10ex;
+    box-shadow: 0 4ex 8ex rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
