@@ -4,7 +4,32 @@
 {% block content %}
 <div class = "box">
     <form name = 'editOrder' action = '/editOrder/{{tr[0][0]}}' method = 'POST'>
-        {{tr}}
+        <table>
+
+            <thead>
+                <tr>
+                    <td colspan="4">Заказ №{{tr[0][0]}}</td>
+                </tr>
+                <tr>
+                    <td>Заказчик</td>
+                    <td>Товар </td>
+                    <td>Дата заказа </td>
+                    <td>Статус </td>
+                </tr>
+            </thead>
+        
+            <tbody id = "myTableB">
+
+                    <tr>
+                        <td>{{tr[0][1]}} </td>
+                        <td>{{tr[0][2]}} </td>
+                        <td>{{tr[0][3]}} </td>
+                        <td>{{tr[0][4]}} </td>
+                    </tr>
+                
+            </tbody>    
+        </table>
+
         <p><select name = "status">
             <option value = "-1"> - - -</option>
             {% for item in status%}

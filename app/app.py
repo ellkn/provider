@@ -93,23 +93,49 @@ def registration():
 @app.route('/banks')
 def banks():
     try:
-        return render_template('banks.html')
+        bank = db.getBanks()
+        return render_template('banks.html', bank = bank)
     except:
         return render_template('error.html')
+        
     
-    
-@app.route('/createOrder', methods = ["GET", "POST"])
+@app.route('/createOrder',  methods = ["GET", "POST"])
 def createOrder():
     try:
-        return render_template('createOrder.html')
+        if current_user.is_authenticated:
+            users = db.getUsersU() 
+            goods = db.getGoods()
+            goddtypes = db.getGoodTypes()
+            if request.method == 'POST':
+                if current_user.get_role() == 'ADMIN'  or current_user.get_role() == 'PROVIDER':
+                    if request.form.get("good") == "-1" or request.form.get("user") == "-1":
+                        flash("Введите корректные данные")
+                    else:
+                        db.createOrder(request.form.get("user"), request.form.get("good"))
+                        flash('Заказ создан')
+                        return redirect('/orders')
+                elif current_user.get_role() == 'USER':
+                    if request.form.get("good") == "-1":
+                        flash("Введите корректные данные")
+                    else:
+                        db.createOrder(current_user.get_id(), request.form.get("good"))
+                        flash('Заказ создан')
+                        return redirect('/orders')
+            return render_template('createOrder.html', users = users, good = goods, goddtypes = goddtypes)
+        else:
+            flash('Вы не имеете достаточных прав для перехода на данную страницу')
+            return redirect('/content')  
     except:
-        return render_template('error.html')
-    
+        return render_template('error.html')    
 
-@app.route('/providers', methods = ["GET", "POST"])
+
+@app.route('/providers')
 def providers():
     try:
-        return render_template('providers.html')
+        prov = db.getProviders()
+        goods = db.getGoods()
+        types = db.getGoodTypes()
+        return render_template('providers.html', providers = prov, goods = goods, types = types)
     except:
         return render_template('error.html')
 
@@ -137,7 +163,7 @@ def edit(id):
                 if request.form.get("role") == "-1":
                     flash("Введите корректные данные")
                 else:
-                    if db.getAdminsCount()[0][0] == 1 and current_user.get_role() == 'ADMIN' and request.form.get("role") != 2:
+                    if db.getAdminsCount()[0][0] == 1 and request.form.get("role") ==2 or db.getAdminsCount()[0][0] == 1 and request.form.get("role") == 3:
                         flash("Вы не можете изменить роль у единственного пользователя с ролью ADMIN")
                     else:
                         db.editUser(request.form.get("email"), request.form.get("lastname"), request.form.get("firstname"), request.form.get("phone"), request.form.get("role"), id)
@@ -188,6 +214,88 @@ def editOrder(id):
     except:
         return render_template('error.html')
     
+    
+@app.route('/addCategory', methods = ["GET", "POST"])
+def addCategory():
+    try:
+        if current_user.is_authenticated and current_user.get_role() == 'ADMIN' or current_user.get_role() == 'PROVIDER':
+            if request.method == 'POST':
+                db.addTypeGood(request.form.get("name"))
+                flash('Категория товара добавлена')
+                return redirect('/providers')
+            return render_template("addCategory.html")
+        else:
+            flash('Вы не имеете достаточных прав для перехода на данную страницу')
+            return redirect('/content')  
+    except:
+        return render_template('error.html')
+    
+    
+@app.route('/addGood', methods = ["GET", "POST"])
+def addGood():
+    try:
+        if current_user.is_authenticated and current_user.get_role() == 'ADMIN' or current_user.get_role() == 'PROVIDER':
+            goodtypes = db.getGoodTypes()
+            provs = db.getProviders()
+            if request.method == 'POST':
+                if request.form.get("type") == "-1" :
+                    flash("Введите корректные данные")
+                else:
+                    db.addGood(request.form.get("name"), request.form.get("price"), request.form.get("type"), request.form.get("prov"))
+                    flash('Товар добавлен')
+                    return redirect('/providers')
+            return render_template("addGood.html", type = goodtypes, provs = provs)
+        else:
+            flash('Вы не имеете достаточных прав для перехода на данную страницу')
+            return redirect('/content')  
+    except:
+        return render_template('error.html')
+
+
+@app.route('/addBank', methods = ["GET", "POST"])
+def addBank():
+    try:
+        if current_user.is_authenticated and current_user.get_role() == 'ADMIN':
+            if request.method == 'POST':
+                db.addBank(request.form.get("name"))
+                return redirect('/banks')
+            return render_template("addBank.html")
+        else:
+            flash('Вы не имеете достаточных прав для перехода на данную страницу')
+            return redirect('/content')  
+    except:
+        return render_template('error.html')
+    
+    
+@app.route('/addBankRelation', methods = ["GET", "POST"])
+def addBankRelation():
+    try:
+        if current_user.is_authenticated and current_user.get_role() == 'ADMIN' :
+            bank = db.getBanks()
+            users = db.getUsers()
+            if request.method == 'POST':
+                if request.form.get("banks") == "-1" or request.form.get("user") == "-1":
+                    flash("Введите корректные данные")
+                else:
+                    db.addBankRelation(request.form.get("banks"), request.form.get("user"))
+                    return redirect('/banks')
+            return render_template("addBankRelation.html", users = users, bank = bank)
+        else:
+            flash('Вы не имеете достаточных прав для перехода на данную страницу')
+            return redirect('/content')  
+    except:
+        return render_template('error.html')
+
+
+@app.route('/relations')
+def relations():
+    try:
+        relationsProvider = db.getBankRelationForProv()
+        relationsUser = db.getBankRelationForUser()
+        return render_template('relations.html', relationsProvider = relationsProvider, relationsUser = relationsUser)
+    except:
+        return render_template('error.html')
+
 
 @app.errorhandler(404)
 def pageNotFount(error):

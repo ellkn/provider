@@ -16,7 +16,7 @@
         {% if current_user.is_authenticated and current_user.get_role() == 'ADMIN'%}
         <p><select name = "prov">
             <option value = "-1">Выберите поставщика</option>
-            {% for item in users%}
+            {% for item in provs%}
             <option value = "{{item[0]}}">{{item[1]}} - {{item[2]}}{{item[3]}} - {{item[4]}}</option>
             {%endfor%}
         </select></p>

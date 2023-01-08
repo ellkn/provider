@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %} Поставщики {% endblock %}
+
+{% block content %}
+{% if current_user.is_authenticated and current_user.get_role() == 'ADMIN' or current_user.get_role() == 'PROVIDER'%}
+    <table name = "relations">
+
+        <thead>
+            <tr>
+                <td colspan="2">Провайдеры</td>
+            </tr>
+        </thead>
+
+        <tbody id = "myTableB">
+            {%for item in relationsProvider%}
+                <tr>
+                    <td>{{item[2]}} </td><td> {{item[4]}} {{item[5]}} {{item[6]}} {{item[7]}}</td>
+                </tr>
+            {%endfor%}
+            
+        </tbody>    
+    </table>
+    {%endif%}
+    <br><br><br>
+    {% if current_user.is_authenticated and current_user.get_role() == 'ADMIN' or current_user.get_role() == 'USER'%}
+    <table name = "relations">
+
+        <thead>
+            <tr>
+                <td colspan="2">Пользователи</td>
+            </tr>
+        </thead>
+    
+        <tbody id = "myTableB">
+            {%for item in relationsUser%}
+                <tr>
+                    <td>{{item[2]}}</td><td>{{item[4]}} {{item[5]}} {{item[6]}} {{item[7]}}</td>
+                </tr>
+            {%endfor%}
+            
+        </tbody>    
+    </table>
+
+    {%endif%}
+
+{% endblock %}

@@ -2,5 +2,29 @@
 {% block title %} Поставщики {% endblock %}
 
 {% block content %}
+{% if current_user.is_authenticated and current_user.get_role() == 'ADMIN'%}
+         
+    <p><a class='link' href="/addBank">Добавить банк</a>
+    <a class='link' href="/addBankRelation">Добавить обслуживающий банк</a>
+    <a class='link' href="/relations">Показать обслуживающие банки</a>
+    </p>
+                
+    {%endif%}
+<table class = "goods" name = "banks">
 
+    <thead>
+        <tr>
+            <td>Банк</td>
+        </tr>
+    </thead>
+
+    <tbody id = "myTableB">
+        {%for item in bank%}
+            <tr>
+                <td>{{item[1]}}</td>
+            </tr>
+        {%endfor%}
+        
+    </tbody>    
+</table>
 {% endblock %}

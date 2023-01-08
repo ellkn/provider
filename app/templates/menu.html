@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class = "menu">
-    <a href='/'><img class='logo' src="/static/logo.png"></a>
+    <a href='/content' target="content"><img class='logo' src="/static/logo.png"></a>
     {% if current_user.is_authenticated and current_user.get_role() == 'ADMIN'%}
         <a class='link' href="/users" target="content">Пользователи</a>
     {% endif %}

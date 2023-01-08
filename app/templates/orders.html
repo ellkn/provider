@@ -2,6 +2,7 @@
 {% block title %} Поставщики {% endblock %}
 
 {% block content %}
+
 <p><a href="/createOrder" class="link">Добавить заказ</a></p>
 
     <p><input class = "filter" type="text" id="myInput" onkeyup="myFunction()" placeholder="Ищите по названию товара.." title="По названию"></p>
@@ -17,6 +18,8 @@
                     <td>Цена товара</td>
                     <td>Тип товара</td>
                     <td>Дата покупки</td>
+                    <td>Статус</td>
+                    <td>Действие</td>
                 </tr>
             </thead>
             <tbody  id = "myTable">
@@ -30,6 +33,9 @@
                     <td>{{item[6]}}</td>
                     <td>{{item[7]}}</td>
                     <td>{{item[8]}}</td>
+                    <td>{{item[9]}}</td>
+                    <td><a href="/editOrder/{{item[0]}}" class="link">Изменить статус</a></td>
+                
                 </tr>
                 {%endfor%}
             </tbody>

@@ -83,6 +83,14 @@ def getUsers():
     except Exception as ex:
         logging.error(ex)
         print(ex)
+        
+        
+def getUsersU():
+    try:
+        return getData("select u.id, u.email, u.lastname, u.firstname, u.phone, r.role from users u join roles r on r.id = u.role where u.role = 3")
+    except Exception as ex:
+        logging.error(ex)
+        print(ex)
     
     
 def getProviders():
@@ -115,11 +123,27 @@ def getStatus():
     except Exception as ex:
         logging.error(ex)
         print(ex)    
-        
+    
+    
+def getGoods():
+    try:
+        return getData("select g.\"id \", g.name, g.price, c.category, g.category, g.prov from goods g join category c on c.id = g.category")
+    except Exception as ex:
+        logging.error(ex)
+        print(ex)
+    
+
+def getGoodTypes():
+    try:
+        return getData("select * from category")
+    except Exception as ex:
+        logging.error(ex)
+        print(ex)
+
 
 def addTypeGood(type):
     try:
-        setData(f"INSERT INTO categorys (type) VALUES ('{type}')")
+        setData(f"INSERT INTO category (category) VALUES ('{type}')")
     except Exception as ex:
         print(ex)
         logging.error(ex)
@@ -135,7 +159,7 @@ def addGood(name, price, type_id, user_id):
 
 def getOrders():
     try:
-        return getData("select o.id, u.email, u.lastname, u.firstname, u.phone, g.name, g.price, c.category, o.datetime from orders o join users u on u.id = o.user_id join goods g on o.good_id = g.\"id \" join category c on g.category = c.id")
+        return getData("select o.id, u.email, u.lastname, u.firstname, u.phone, g.name, g.price, c.category, o.datetime, s.status from orders o join users u on u.id = o.user_id join goods g on o.good_id = g.\"id \" join category c on g.category = c.id join status s on s.id = o.status")
     except Exception as ex:
         logging.error(ex)
         print(ex)
@@ -143,7 +167,7 @@ def getOrders():
         
 def getUserOrders(user_id):
     try:
-        return getData(f"select o.id, u.email, u.lastname, u.firstname, u.phone, g.name, g.price, c.category, o.datetime from orders o join users u on u.id = o.user_id join goods g on o.good_id = g.\"id \" join category c on g.category = c.id WHERE o.user_id = {user_id}")
+        return getData(f"select o.id, u.email, u.lastname, u.firstname, u.phone, g.name, g.price, c.category, o.datetime, s.status from orders o join users u on u.id = o.user_id join goods g on o.good_id = g.\"id \" join category c on g.category = c.id join status s on s.id = o.status WHERE o.user_id = {user_id}")
     except Exception as ex:
         logging.error(ex)
         print(ex)
@@ -151,11 +175,21 @@ def getUserOrders(user_id):
         
 def getOrder(id):
     try:
-        return getData(f"select o.*, st.status from orders o join status st on st.id = o.status where o.id = {id}")
+        return getData(f"select o.id, u.email, g.name, o.datetime, st.status from orders o join status st on st.id = o.status join users u on u.id = o.user_id join goods g on o.good_id = g.\"id \" where o.id = {id}")
     except Exception as ex:
         logging.error(ex)
         print(ex)
         
+        
+def createOrder(user_id, goods_id):
+    date = datetime.datetime.now()
+    try:
+        for good in goods_id:
+            setData(f"INSERT INTO orders (user_id, good_id, datetime, status) VALUES ({user_id}, {good}, '{date}', {1})")
+    except Exception as ex:
+        print(ex)
+        logging.error(ex)
+
 
 def editUser(email, lastname, firstname, phone, role, id):
     try:
@@ -163,3 +197,43 @@ def editUser(email, lastname, firstname, phone, role, id):
     except Exception as ex:
         print(ex)
         logging.error(ex)
+
+
+def getBanks():
+    try:
+        return getData(f"select * from banks")
+    except Exception as ex:
+        logging.error(ex)
+        print(ex)
+        
+        
+def addBank(bank):
+    try:
+        setData(f"INSERT INTO banks (bank) VALUES ('{bank}')")
+    except Exception as ex:
+        print(ex)
+        logging.error(ex)
+
+
+def addBankRelation(bank, user):
+    try:
+        setData(f"INSERT INTO info (bank, client) VALUES ({bank}, {user})")
+    except Exception as ex:
+        print(ex)
+        logging.error(ex)
+        
+
+def getBankRelationForProv():
+    try:
+        return getData(f"SELECT i.id, b.id, b.bank, u.id, u.lastname, u.firstname, u.email, u.phone  FROM info i join users u on u.id = i.client join banks b on b.id = i.bank where u.role = 2")
+    except Exception as ex:
+        logging.error(ex)
+        print(ex)
+  
+  
+def getBankRelationForUser():
+    try:
+        return getData(f"SELECT i.id, b.id, b.bank, u.id, u.lastname, u.firstname, u.email, u.phone  FROM info i join users u on u.id = i.client join banks b on b.id = i.bank where u.role = 3")
+    except Exception as ex:
+        logging.error(ex)
+        print(ex)      

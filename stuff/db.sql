@@ -146,3 +146,7 @@ INSERT INTO public.roles (role) VALUES ('ADMIN'::text) returning id;
 INSERT INTO public.roles (role) VALUES ('PROVIDER'::text) returning id;
 INSERT INTO public.roles (role) VALUES ('USER'::text) returning id;
 
+
+INSERT INTO public.status (status) VALUES ('OPEN'::text) returning id;
+INSERT INTO public.status (status) VALUES ('CANCELED'::text) returning id;
+INSERT INTO public.status (status) VALUES ('CLOSED'::text) returning id;

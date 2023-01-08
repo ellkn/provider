@@ -3,8 +3,8 @@
 
 {% block content %}
 <div class = "box">
-    <h4>Сделать заказ</h4>
-    <form name = 'createOrder' action = '/createOrder' method = 'POST'>
+    <h4>Добавление обслуживающего банка</h4>
+    <form name = 'addBankRelation' action = '/addBankRelation' method = 'POST'>
         {% if current_user.is_authenticated and current_user.get_role() == 'ADMIN'%}
         
         <p><select name = "user">
@@ -15,21 +15,13 @@
         </select></p>
         <!--        <p><input type="text" name="search" placeholder = "Доделать поиск"></p>-->
         {%endif%}
-        <p><select name = "good" multiple="multiple">
-            <option value = "-1">Выберите товар</option>
-            
-            {% for type in goddtypes%}
-            <optgroup label="{{type[1]}}">
-                {% for item in good%}
-                {{item}}
-                    {% if item[4] == type[0]%}
-                    <option value = "{{item[0]}}">{{item[1]}} {{item[2]}}</option>
-                    {%endif%}
-                {%endfor%}
-            </optgroup>
+        <p><select name = "banks">
+            <option value = "-1">Выберите банк</option>
+            {% for item in bank%}
+                <option value = "{{item[0]}}">{{item[1]}}</option>
             {%endfor%}
         </select></p>
-        <p><input type = 'submit' class = "input" value = 'Создать заказ'></p>
+        <p><input type = 'submit' class = "input" value = 'Добавить обслуживание банка'></p>
     </form>
 </div>
 {% endblock %}

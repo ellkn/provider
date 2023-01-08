@@ -67,3 +67,24 @@ input{
     box-shadow: 0 4ex 8ex rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
+
+.css-treeview div.dropdown ul {
+    display: none;
+}
+
+.css-treeview div.dropdown>input:checked+ul {
+display: block;
+}
+
+.ch {
+visibility: hidden;
+}
+
+.chlabel {
+cursor: pointer;
+}
+
+tr:hover{
+    color: #1f2939;
+    background-color: #e56e32;
+}

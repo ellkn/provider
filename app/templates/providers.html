@@ -2,5 +2,47 @@
 {% block title %} Поставщики {% endblock %}
 
 {% block content %}
+{% if current_user.is_authenticated and current_user.get_role() == 'ADMIN' or current_user.get_role() == 'PROVIDER'%}
+         
+    <p><a class='link' href="/addGood">Добавить товар</a>
+    <a class='link' href="/addCategory">Добавить категорию товара</a></p>
+                
+    {%endif%}
+    {%for provider in providers%}
+            <div class="dropdown ">
+                <label class = "chlabel" for="{{provider[0]}}">{{provider[1]}} - {{provider[2]}} {{provider[3]}}</label>
+                <input class = "ch" type="checkbox" id="{{provider[0]}}" />
+                <table class = "goods" name = "goods">
 
+                    <thead>
+                        <tr>
+                            <td>Товар</td>
+                            <td>Стоимость</td>
+                        </tr>
+                    </thead>
+                
+                    <tbody id = "myTable">
+                        {%for typ in types%}
+                        <tr>
+                            <td colspan="2"><b>{{typ[1]}}</b> </td>
+                        </tr>
+                        <tr>
+                            {%for item in goods%}
+                                {% if item[5] == provider[0]%}
+                                    {% if item[4] == typ[0]%}
+                                    <tr>
+                                        <td>{{item[1]}}</td>
+                                        <td>{{item[2]}}</td>
+                                    </tr>
+                                    {%endif%}
+                                {%endif%}
+                            {%endfor%}
+                        </tr>
+                        {%endfor%}
+                        
+                    </tbody>    
+                </table>
+            </div>
+        
+      {%endfor%}
 {% endblock %}
