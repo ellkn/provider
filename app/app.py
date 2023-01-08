@@ -180,10 +180,10 @@ def edit(id):
 @app.route('/orders')
 def orders():
     try:
-        if current_user.is_authenticated and current_user.get_role() == 'ADMIN' or current_user.get_role() == 'PROVIDER':
+        if current_user.is_authenticated and current_user.get_role() == 'ADMIN':
             orders = db.getOrders()
             return render_template('orders.html', orders = orders)
-        elif current_user.is_authenticated and current_user.get_role() == 'USER':
+        elif current_user.is_authenticated and current_user.get_role() == 'USER' or current_user.get_role() == 'PROVIDER':
             orders = db.getUserOrders(current_user.get_id())
             return render_template('orders.html', orders = orders)
         else:
