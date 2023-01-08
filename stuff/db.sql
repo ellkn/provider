@@ -142,6 +142,8 @@ END;
 
 
 -- ЗАПОЛНЕНИЕ
+INSERT INTO public.users (email, password, lastname, firstname, phone, role) VALUES ('11@1.1'::text, 'pbkdf2:sha1:260000$OMVHHXfS$cd3aea4ab64f688e2c4e8cd70ac1d24650dbb942'::text, 'admin'::text, 'admin'::text, '7909-909-90-90'::text, '1'::integer) returning id;
+
 INSERT INTO public.roles (role) VALUES ('ADMIN'::text) returning id;
 INSERT INTO public.roles (role) VALUES ('PROVIDER'::text) returning id;
 INSERT INTO public.roles (role) VALUES ('USER'::text) returning id;
