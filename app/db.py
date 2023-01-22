@@ -199,6 +199,14 @@ def editUser(email, lastname, firstname, phone, role, id):
         logging.error(ex)
 
 
+def editOrder( id, status):
+    try:
+        setData(f"UPDATE orders SET status = '{status}' WHERE id = {id}")
+    except Exception as ex:
+        print(ex)
+        logging.error(ex)
+        
+
 def getBanks():
     try:
         return getData(f"select * from banks")
